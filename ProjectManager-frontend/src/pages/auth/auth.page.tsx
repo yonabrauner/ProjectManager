@@ -11,6 +11,7 @@ export default function LoginRegisterPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [isloading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { login, isLoggedIn } = useAuth();
 
@@ -22,6 +23,7 @@ export default function LoginRegisterPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setIsLoading(true);
     try {
       var response: AuthResponseDto;
       if (isLogin) {
@@ -41,6 +43,9 @@ export default function LoginRegisterPage() {
       }
     } catch (err: any) {
       setMessage(err.response?.data?.error ?? "Something went wrong." + err);
+    }
+    finally{
+      setIsLoading(false);
     }
   }
 
@@ -90,7 +95,7 @@ export default function LoginRegisterPage() {
             type="submit"
             className="button"
           >
-            {isLogin ? "Login" : "Register"}
+            {isloading ? "Logging in..." : isLogin ? "Login" : "Register"}
           </button>
         </form>
 
