@@ -39,11 +39,11 @@ try
     // CORS
     builder.Services.AddCors(options =>
     {
-        options.AddDefaultPolicy(policy =>
+        options.AddPolicy("AllowFrontend", policy =>
         {
             policy.WithOrigins(
                 "http://localhost:5173",
-                "https://your-frontend.vercel.app"
+                "https://project-manager-mocha-theta.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -93,7 +93,7 @@ try
 
     app.UseExceptionHandler("/error"); // global error handling
     app.UseHttpsRedirection();
-    app.UseCors();                      // CORS must be before Authentication/Authorization
+    app.UseCors("AllowFrontend");
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
