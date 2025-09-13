@@ -1,93 +1,41 @@
-Project Manager Web App
+# **Mini Project Manager**
 
-Project Manager is a modern, full-stack web application that allows users to manage projects and tasks efficiently. The app features secure authentication, CRUD operations for projects and tasks, and a responsive interface suitable for both desktop and mobile devices.
+A full-stack project management web application built with React + TypeScript on the frontend and ASP.NET Core 8 + Entity Framework Core on the backend.
 
-Features
+---
 
-User Authentication: Secure registration and login using hashed passwords and JWT tokens.
+## **Live Demo**
 
-Project Management: Create, read, update, and delete projects.
+- Frontend: https://project-manager-api-beryl.vercel.app  
+- Backend API: Hosted on Render
 
-Task Management: Create, read, update, and delete tasks within projects.
+---
 
-Ownership Validation: Users can only access and modify their own projects and tasks.
+## **Features**
 
-Filtering & Sorting: Sort tasks by title or due date, filter by completion status.
+- User Registration and Login with secure JWT authentication.
+- Create, view, and delete projects.
+- Add, update, delete, and toggle completion status of tasks within projects.
+- Filter and sort tasks by completion status, due date, and title.
+- Responsive design optimized for desktop and mobile devices.
+- Loading indicators (spinners) and clear user feedback messages during async operations.
+- Robust error handling with descriptive messages.
+- Clean and modern UI with smooth user experience.
+- Mobile-friendly and accessible layout.
 
-Responsive Frontend: Built with modern frontend frameworks for a smooth user experience.
+---
 
-REST API: Backend implemented in .NET with a scalable repository layer and EF Core for database access.
+## **Technologies Used**
 
-Tech Stack
+- Frontend: React, TypeScript, React Router, Fetch API.
+- Backend: ASP.NET Core 8, Entity Framework Core, SQLite (in-memory for demo).
+- Authentication: JWT with BCrypt password hashing.
+- Deployment: Frontend deployed on Vercel, Backend deployed on Render.
 
-Frontend: Vite + React + TypeScript
+---
 
-Backend: ASP.NET Core Web API + Entity Framework Core
+## **Notes on Data Persistence**
 
-Database: SQLite (development) / PostgreSQL (production-ready)
-
-Authentication: JWT-based
-
-Deployment: Frontend on Vercel, Backend on Fly.io
-
-Version Control: Git + GitHub
-
-Installation / Running Locally
-
-Clone the repository:
-
-git clone https://github.com/your-username/project-manager.git
-
-
-Navigate to backend and install dependencies:
-
-cd ProjectManager.Api
-dotnet restore
-
-
-Configure environment variables:
-
-JWT_KEY – Secret key for JWT tokens
-
-DB_CONNECTION_STRING – Database connection string
-
-Run migrations:
-
-dotnet ef database update
-
-
-Run backend:
-
-dotnet run
-
-
-Navigate to frontend and install dependencies:
-
-cd ../ProjectManager.Web
-npm install
-
-
-Configure frontend environment variables:
-
-VITE_API_URL=http://localhost:5000/api
-
-
-Run frontend:
-
-npm run dev
-
-
-Deployment
-
-Frontend deployed on Vercel
-
-Backend deployed on Fly.io
-
-
-Contribution
-
-Contributions are welcome! Please open issues or submit pull requests. Follow clean code and repository layer patterns for consistency.
-
-License
-
-This project is licensed under the MIT License.
+- The backend currently uses SQLite in-memory storage or local file storage without persistent volumes.
+- Data will be reset or lost on backend redeploy or server restart.
+- For production use, consider configuring a persistent external database such as PostgreSQL.
