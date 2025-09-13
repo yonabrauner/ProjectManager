@@ -43,7 +43,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
     setFilterCompleted(prev => prev === null ? true : prev === true ? false : null);
   };
 
-  const onTaskDelete: (taskId: number) => void = async (taskId) => {
+  const onTaskDelete: (taskId: string) => void = async (taskId) => {
       await deleteTask(project.id, taskId);
       setTasks((prev) => prev.filter((t) => t.id !== taskId));
     }

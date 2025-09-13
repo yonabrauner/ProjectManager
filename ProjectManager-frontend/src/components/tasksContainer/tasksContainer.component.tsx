@@ -3,10 +3,10 @@ import TaskRow from "../taskRow/taskRow.component"; // row component for each ta
 import "./tasksContainer.styles.css";
 
 interface TasksContainerProps {
-  projectId: number;
+  projectId: string;
   tasks: Task[];
   loading: boolean;
-  onDelete: (taskId: number) => void;
+  onDelete: (taskId: string) => void;
   refreshTasks: () => void;
 }
 

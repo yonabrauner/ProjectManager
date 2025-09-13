@@ -7,7 +7,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const { username, logout, isLoggedIn } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
 
   return (
     <div className="layout">
