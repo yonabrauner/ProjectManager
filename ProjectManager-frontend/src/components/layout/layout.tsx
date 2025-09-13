@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import "./Layout.css";
+import "./layout.css";
 
 interface LayoutProps {
   children: ReactNode;
