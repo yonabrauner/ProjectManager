@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using ProjectManager.Api.Data;
 using ProjectManager.Api.Helpers;
+using ProjectManager.Api.Repositories.Implementations;
+using ProjectManager.Api.Repositories.Interfaces;
 using ProjectManager.Api.Services;
 using ProjectManager.Api.Services.Implementations;
 using ProjectManager.Api.Services.Interfaces;
@@ -21,6 +23,9 @@ try
                           ?? "Data Source=mini_project_manager.db"));
 
     // Scoped services
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+    builder.Services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();

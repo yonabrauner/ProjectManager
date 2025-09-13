@@ -1,11 +1,14 @@
 using ProjectManager.Api.Models;
 
 
-public interface IProjectTaskRepository
+namespace ProjectManager.Api.Repositories.Interfaces
 {
-    Task<IEnumerable<ProjectTask>> GetTasksByProjectIdAsync(int projectId, bool? completed = null, string? sort = null);
-    Task<ProjectTask?> GetByIdAsync(int taskId);
-    Task AddAsync(ProjectTask task);
-    Task UpdateAsync(ProjectTask task); // Optional: for completeness
-    Task DeleteAsync(ProjectTask task);
+    public interface IProjectTaskRepository
+    {
+        IQueryable<ProjectTask> GetQueryableByProjectId(Guid projectId);
+        Task<ProjectTask?> GetByIdAsync(Guid taskId);
+        Task AddAsync(ProjectTask task);
+        void Remove(ProjectTask task);
+        Task SaveChangesAsync();
+    }
 }

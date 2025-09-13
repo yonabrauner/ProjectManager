@@ -3,24 +3,28 @@ using ProjectManager.Api.Data;
 using ProjectManager.Api.DTOs;
 using ProjectManager.Api.Models;
 using ProjectManager.Api.Common;
+using ProjectManager.Api.Repositories.Interfaces;
+
 
 namespace ProjectManager.Api.Services
 {
     public class ProjectTaskService : IProjectTaskService
     {
         private readonly AppDbContext _context;
+        private readonly IProjectTaskRepository _projectTaskRepository;
+        private readonly IProjectRepository _projectRepository;
 
-        public ProjectTaskService(AppDbContext context)
+        public ProjectTaskService(AppDbContext context, IProjectTaskRepository projectTaskRepository, IProjectRepository projectRepository)
         {
             _context = context;
+            _projectTaskRepository = projectTaskRepository;
+            _projectRepository = projectRepository;
         }
 
         public async Task<ServiceResult<IEnumerable<TaskResponseDto>>> GetTasksByProjectIdAsync(Guid projectId, Guid userId, bool? completed = null, string? sort = null)
         {
-            var query = _context.ProjectTasks
-                .Include(t => t.Project)
-                .Where(t => t.ProjectId == projectId && t.Project.UserId == userId)
-                .AsQueryable();
+            var query = _projectTaskRepository.GetQueryableByProjectId(projectId);
+            query = query.Where(t => t.Project != null && t.Project.UserId == userId);
 
             // filtering
             if (completed.HasValue)
@@ -52,9 +56,7 @@ namespace ProjectManager.Api.Services
         public async Task<ServiceResult<TaskResponseDto?>> GetTaskByIdAsync(Guid taskId, Guid userId)
         {
             // Find the task including its project
-            var task = await _context.ProjectTasks
-                .Include(t => t.Project)
-                .FirstOrDefaultAsync(t => t.Id == taskId);
+            var task = await _projectTaskRepository.GetByIdAsync(taskId);
 
             if (task == null)
                 throw new ApplicationException($"Task with ID {taskId} not found.");
@@ -76,11 +78,10 @@ namespace ProjectManager.Api.Services
         public async Task<ServiceResult<TaskResponseDto>> CreateTaskAsync(TaskCreateDto dto, Guid userId)
         {
             // ensure project belongs to this user
-            var project = await _context.Projects
-                .FirstOrDefaultAsync(p => p.Id == dto.ProjectId && p.UserId == userId);
+            var project = await _projectRepository.GetByIdForUserAsync(dto.ProjectId, userId);
 
             if (project == null)
-                throw new ApplicationException("Error: Failed to retrieve Project.");
+                throw new ApplicationException("Project not found or does not belong to user.");
 
             if (string.IsNullOrWhiteSpace(dto.Title))
                 return ServiceResult<TaskResponseDto>.Fail("Task title is required.");
@@ -96,18 +97,8 @@ namespace ProjectManager.Api.Services
 
             _context.ProjectTasks.Add(task);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new ApplicationException("Failed to update DB.", ex);
-            }
-            catch (OperationCanceledException ex)
-            {
-                throw new ApplicationException("Operation canceled.", ex);
-            }
+            await _projectTaskRepository.AddAsync(task);
+            await _projectTaskRepository.SaveChangesAsync();
 
             var response = new TaskResponseDto
             {
