@@ -6,7 +6,7 @@ A full-stack project management web application built with React + TypeScript on
 
 ## **Live Demo**
 
-- Frontend: https://project-manager-api-beryl.vercel.app  
+- Frontend: https://project-manager-mocha-theta.vercel.app
 - Backend API: Hosted on Render
 
 ---
@@ -27,10 +27,10 @@ A full-stack project management web application built with React + TypeScript on
 
 ## **Technologies Used**
 
-- Frontend: React, TypeScript, React Router, Fetch API.
+- Frontend: React, TypeScript, Vite, React Router, Axios API.
 - Backend: ASP.NET Core 8, Entity Framework Core, SQLite (in-memory for demo).
-- Authentication: JWT with BCrypt password hashing.
-- Deployment: Frontend deployed on Vercel, Backend deployed on Render.
+- Authentication: JWT with Argon2 password hashing.
+- Deployment: Frontend deployed on Vercel, Backend deployed on Fly.io.
 
 ---
 
@@ -38,4 +38,3 @@ A full-stack project management web application built with React + TypeScript on
 
 - The backend currently uses SQLite in-memory storage or local file storage without persistent volumes.
 - Data will be reset or lost on backend redeploy or server restart.
-- For production use, consider configuring a persistent external database such as PostgreSQL.
