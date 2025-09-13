@@ -12,7 +12,7 @@ namespace ProjectManager.Api.DTOs
 
 
         [Required(ErrorMessage = "ProjectID is required.")]
-        public int ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
 
         public bool IsCompleted { get; set; } = false;
     }

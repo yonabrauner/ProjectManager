@@ -15,7 +15,7 @@ namespace ProjectManager.Api.Services
             _context = context;
         }
 
-        public async Task<ServiceResult<IEnumerable<TaskResponseDto>>> GetTasksByProjectIdAsync(int projectId, int userId, bool? completed = null, string? sort = null)
+        public async Task<ServiceResult<IEnumerable<TaskResponseDto>>> GetTasksByProjectIdAsync(Guid projectId, Guid userId, bool? completed = null, string? sort = null)
         {
             var query = _context.ProjectTasks
                 .Include(t => t.Project)
@@ -29,8 +29,10 @@ namespace ProjectManager.Api.Services
             // sorting
             query = sort switch
             {
-                "duedate" => query.OrderBy(t => t.DueDate),
-                "title" => query.OrderBy(t => t.Title),
+                "duedate_asc" => query.OrderBy(t => t.DueDate),
+                "duedate_desc" => query.OrderByDescending(t => t.DueDate),
+                "title_asc" => query.OrderBy(t => t.Title),
+                "title_desc" => query.OrderByDescending(t => t.Title),
                 _ => query.OrderBy(t => t.Id)
             };
 
@@ -47,7 +49,7 @@ namespace ProjectManager.Api.Services
             return ServiceResult<IEnumerable<TaskResponseDto>>.Ok(response, "Successfully got tasks.");
         }
 
-        public async Task<ServiceResult<TaskResponseDto?>> GetTaskByIdAsync(int taskId, int userId)
+        public async Task<ServiceResult<TaskResponseDto?>> GetTaskByIdAsync(Guid taskId, Guid userId)
         {
             // Find the task including its project
             var task = await _context.ProjectTasks
@@ -71,7 +73,7 @@ namespace ProjectManager.Api.Services
             return ServiceResult<TaskResponseDto?>.Ok(response, "Successfully got task.");
         }
 
-        public async Task<ServiceResult<TaskResponseDto>> CreateTaskAsync(TaskCreateDto dto, int userId)
+        public async Task<ServiceResult<TaskResponseDto>> CreateTaskAsync(TaskCreateDto dto, Guid userId)
         {
             // ensure project belongs to this user
             var project = await _context.Projects
@@ -119,7 +121,7 @@ namespace ProjectManager.Api.Services
  
         }
 
-        public async Task<ServiceResult<TaskResponseDto?>> UpdateTaskAsync(int taskId, TaskUpdateDto dto, int userId)
+        public async Task<ServiceResult<TaskResponseDto?>> UpdateTaskAsync(Guid taskId, TaskUpdateDto dto, Guid userId)
         {
             var task = await _context.ProjectTasks
                 .Include(t => t.Project)
@@ -157,7 +159,7 @@ namespace ProjectManager.Api.Services
 
         }
 
-        public async Task<ServiceResult<bool>> DeleteTaskAsync(int taskId, int userId)
+        public async Task<ServiceResult<bool>> DeleteTaskAsync(Guid taskId, Guid userId)
         {
             var task = await _context.ProjectTasks
                 .Include(t => t.Project)

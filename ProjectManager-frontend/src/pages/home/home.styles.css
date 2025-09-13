@@ -1,0 +1,50 @@
+.home-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.home-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.username {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.logout-btn {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.logout-btn:hover {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+}
+
+.page-title {
+  margin: 0 0 16px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.projects-title {
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #222;
+}

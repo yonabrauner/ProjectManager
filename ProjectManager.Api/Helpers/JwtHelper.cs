@@ -14,14 +14,14 @@ namespace ProjectManager.Api.Helpers
 
             return new TokenValidationParameters
             {
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidIssuer = issuer,
-                ValidateAudience = true,
+                ValidateAudience = false,
                 ValidAudience = audience,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!)),
+                ValidateLifetime = false,
+                // ClockSkew = TimeSpan.Zero
             };
         }
     }

@@ -14,7 +14,7 @@ namespace ProjectManager.Api.Services
             _context = context;
         }
 
-        public async Task<ServiceResult<IEnumerable<ProjectResponseDto>>> GetUserProjectsAsync(int userId)
+        public async Task<ServiceResult<IEnumerable<ProjectResponseDto>>> GetUserProjectsAsync(Guid userId)
         {
             // Check if user exists
             var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
@@ -38,7 +38,7 @@ namespace ProjectManager.Api.Services
             return ServiceResult<IEnumerable<ProjectResponseDto>>.Ok(response, "Got projects successfully.");
         }
 
-        public async Task<ServiceResult<ProjectResponseDto>> CreateProjectAsync(ProjectCreateDto dto, int userId)
+        public async Task<ServiceResult<ProjectResponseDto>> CreateProjectAsync(ProjectCreateDto dto, Guid userId)
         {
             // Check if user exists
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -80,7 +80,7 @@ namespace ProjectManager.Api.Services
             return ServiceResult<ProjectResponseDto>.Ok(response, "Successfully created project.");
         }
 
-        public async Task<ServiceResult<ProjectResponseDto?>> GetProjectByIdAsync(int projectId, int userId)
+        public async Task<ServiceResult<ProjectResponseDto?>> GetProjectByIdAsync(Guid projectId, Guid userId)
         {
             var project = await _context.Projects
                 .Include(p => p.Tasks)
@@ -102,7 +102,7 @@ namespace ProjectManager.Api.Services
             return ServiceResult<ProjectResponseDto?>.Ok(response, "Successfully got project.");
         }
 
-        public async Task<ServiceResult<bool>> DeleteProjectAsync(int projectId, int userId)
+        public async Task<ServiceResult<bool>> DeleteProjectAsync(Guid projectId, Guid userId)
         {
             var project = await _context.Projects
                 .FirstOrDefaultAsync(p => p.Id == projectId && p.UserId == userId);

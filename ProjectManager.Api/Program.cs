@@ -4,30 +4,16 @@ using Microsoft.OpenApi.Models;
 using ProjectManager.Api.Data;
 using ProjectManager.Api.Helpers;
 using ProjectManager.Api.Services;
-
+using ProjectManager.Api.Services.Implementations;
+using ProjectManager.Api.Services.Interfaces;
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
 
     // ----------------------------
-    // Services
+    // Add services to the container
     // ----------------------------
-    builder.Services.AddControllers();
-
-    // CORS
-    builder.Services.AddCors(options =>
-    {
-        options.AddDefaultPolicy(policy =>
-        {
-            policy.WithOrigins(
-                "http://localhost:3000",
-                "https://your-frontend.vercel.app"
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-        });
-    });
 
     // DbContext
     builder.Services.AddDbContext<AppDbContext>(options =>
@@ -35,12 +21,11 @@ try
                           ?? "Data Source=mini_project_manager.db"));
 
     // Scoped services
-    // builder.Services.AddScoped<IAuthService, AuthService>();
-    // builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<IProjectService, ProjectService>();
     builder.Services.AddScoped<IProjectTaskService, ProjectTaskService>();
 
-    // JWT Auth
+    // JWT Authentication
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -50,6 +35,23 @@ try
     {
         options.TokenValidationParameters = JwtHelper.GetTokenValidationParameters(builder.Configuration);
     });
+
+    // CORS
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins(
+                "http://localhost:5173",
+                "https://your-frontend.vercel.app"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+    });
+
+    // Controllers
+    builder.Services.AddControllers();
 
     // Swagger
     builder.Services.AddEndpointsApiExplorer();
@@ -66,12 +68,14 @@ try
             Description = "JWT Authorization header using the Bearer scheme."
         };
         c.AddSecurityDefinition("Bearer", securityScheme);
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, new string[] { } } });
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, Array.Empty<string>() } });
     });
 
     var app = builder.Build();
 
-    // Apply pending migrations automatically
+    // ----------------------------
+    // Apply migrations automatically
+    // ----------------------------
     using (var scope = app.Services.CreateScope())
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -79,7 +83,7 @@ try
     }
 
     // ----------------------------
-    // Middleware
+    // Middleware pipeline
     // ----------------------------
     if (app.Environment.IsDevelopment())
     {
@@ -89,7 +93,7 @@ try
 
     app.UseExceptionHandler("/error"); // global error handling
     app.UseHttpsRedirection();
-    app.UseCors();
+    app.UseCors();                      // CORS must be before Authentication/Authorization
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();

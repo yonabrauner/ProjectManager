@@ -19,9 +19,10 @@ namespace ProjectManager.Api.Migrations
 
             modelBuilder.Entity("ProjectManager.Api.Models.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
@@ -35,8 +36,8 @@ namespace ProjectManager.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -47,9 +48,10 @@ namespace ProjectManager.Api.Migrations
 
             modelBuilder.Entity("ProjectManager.Api.Models.ProjectTask", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("TEXT");
@@ -57,8 +59,8 @@ namespace ProjectManager.Api.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -73,9 +75,10 @@ namespace ProjectManager.Api.Migrations
 
             modelBuilder.Entity("ProjectManager.Api.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()

@@ -1,0 +1,167 @@
+.task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  cursor: default;
+  transition: background-color 0.2s;
+}
+
+.task-row:hover {
+  background-color: #e0e7ff;
+}
+
+.task-title {
+  flex: 1;
+}
+
+.task-due {
+  margin-left: 1rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.task-status {
+  margin-left: 1rem;
+}
+
+.task-delete {
+  max-width: 15%;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 6px;
+  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 120ms ease;
+}
+
+.task-update {
+  max-width: 15%;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 6px;
+  margin-inline: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 120ms ease;
+}
+
+/* ensure no weird inner padding in Firefox */
+.task-delete::-moz-focus-inner { border: 0; padding: 0; }
+
+.task-update::-moz-focus-inner { border: 0; padding: 0; }
+
+/* subtle hover bg for the button itself (override global button hover if needed) */
+.task-row .task-delete:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0); /* no background */
+}
+
+.task-row .task-update:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0); /* no background */
+}
+
+/* the icon itself must be inline-block (or block) for transform to work */
+.task-delete .trash-icon {
+  display: inline-block;          /* <<< critical */
+  font-size: 18px;                /* base icon size */
+  line-height: 1;
+  transition: transform 160ms ease, color 160ms ease, font-size 160ms ease;
+  transform-origin: center center;
+  will-change: transform;         /* perf hint */
+}
+
+.task-update .update-icon {
+  display: inline-block;          /* <<< critical */
+  font-size: 18px;                /* base icon size */
+  line-height: 1;
+  transition: transform 160ms ease, color 160ms ease, font-size 160ms ease;
+  transform-origin: center center;
+  will-change: transform;         /* perf hint */
+}
+
+/* ONLY the icon scales on hover; the button's background changes separately */
+.task-row .task-delete:hover .trash-icon {
+  transform: scale(1.3);          /* scale icon only */
+}
+
+.task-row .task-update:hover .update-icon {
+  transform: scale(1.3);          /* scale icon only */
+}
+
+/* optional: slightly smaller when active (pressed) */
+.task-row .task-delete:active .trash-icon {
+  transform: scale(1.15);
+}
+
+.task-row .task-update:active .update-icon {
+  transform: scale(1.15);
+}
+
+/* accessibility focus ring (nice, not the ugly default) */
+.task-delete:focus {
+  outline: none;
+  /* box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12); subtle focus ring */
+}
+
+.task-update:focus {
+  outline: none;
+  /* box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12); subtle focus ring */
+}
+
+.task-edit-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+/* Confirm button */
+.task-confirm {
+  max-width: 15%;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 6px;
+  margin-inline: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 120ms ease;
+}
+
+.task-row .task-confirm:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.confirm-icon {
+  font-size: 18px;
+  transition: transform 160ms ease, color 160ms ease;
+}
+
+.task-row .task-confirm:hover .confirm-icon {
+  transform: scale(1.2);
+  color: #22c55e; /* green */
+}
+
+.task-status.clickable:hover {
+  transform: scale(1.2);
+  transition: transform 0.2s ease-in-out;
+}

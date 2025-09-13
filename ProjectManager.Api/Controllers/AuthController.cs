@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjectManager.Api.Services.Implementations;
+using Microsoft.AspNetCore.Authorization;
 using ProjectManager.Api.Services.Interfaces;
 using ProjectManager.Api.DTOs;
+
 
 namespace ProjectManager.API.Controllers
 {
@@ -55,6 +56,13 @@ namespace ProjectManager.API.Controllers
             {
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        [HttpGet("validate")]
+        [Authorize]
+        public IActionResult Validate()
+        {
+            return Ok(new { message = "Token is valid" });
         }
     }
 }

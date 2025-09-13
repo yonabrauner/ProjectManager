@@ -9,7 +9,7 @@ namespace ProjectManager.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]s")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
@@ -52,7 +52,7 @@ namespace ProjectManager.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace ProjectManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {

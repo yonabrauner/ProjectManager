@@ -5,7 +5,7 @@ namespace ProjectManager.Api.Models
 {
     public class ProjectTask
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
         public required string Title { get; set; } = null!;
@@ -15,7 +15,7 @@ namespace ProjectManager.Api.Models
         public bool IsCompleted { get; set; } = false;
 
         // Relationship
-        public int ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
         public required Project Project { get; set; }
     }
 }

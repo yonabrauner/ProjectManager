@@ -57,8 +57,8 @@ namespace ProjectManager.Api.Helpers
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim("username", user.Username)
             };
 
             var key = new SymmetricSecurityKey(

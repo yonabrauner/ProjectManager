@@ -25,12 +25,16 @@ namespace ProjectManager.Api.Data
                 .WithMany(u => u.Projects)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-                
+
             modelBuilder.Entity<ProjectTask>()
                 .HasOne(t => t.Project)
                 .WithMany(p => p.Tasks)
                 .HasForeignKey(t => t.ProjectId)
                 .OnDelete(DeleteBehavior.Cascade);
+                
+            modelBuilder.Entity<User>().Property(u => u.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<Project>().Property(p => p.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<ProjectTask>().Property(t => t.Id).HasDefaultValueSql("NEWID()");
         }
     }
 }

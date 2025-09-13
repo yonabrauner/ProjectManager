@@ -8,7 +8,7 @@ using ProjectManager.Api.Extensions;
 namespace ProjectManager.API.Controllers
 {
     [ApiController]
-    [Route("api/projects/{projectId}/[controller]s")]
+    [Route("api/projects/{projectId}/tasks")]
     [Authorize] // Require authentication via JWT
     public class ProjectTaskController : ControllerBase
     {
@@ -19,14 +19,14 @@ namespace ProjectManager.API.Controllers
             _taskService = taskService;
         }
 
-        [HttpPost("projects/{projectId}/tasks")]
-        public async Task<IActionResult> CreateTask(int projectId, [FromBody] TaskCreateDto dto)
+        [HttpPost]
+        public async Task<IActionResult> CreateTask(Guid projectId, [FromBody] TaskCreateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             // Ensure route projectId matches dto.ProjectId (if provided)
-            if (dto.ProjectId != 0 && dto.ProjectId != projectId)
+            if (dto.ProjectId != projectId)
                 return BadRequest(new { error = "ProjectId in body does not match ProjectId in route." });
 
             try
@@ -42,8 +42,8 @@ namespace ProjectManager.API.Controllers
         }
 
         // PUT /api/projects/{projectId}/tasks/{taskId}
-        [HttpPut("tasks/{taskId}")]
-        public async Task<IActionResult> UpdateTask(int projectId, int taskId, [FromBody] TaskUpdateDto dto)
+        [HttpPut("{taskId}")]
+        public async Task<IActionResult> UpdateTask(Guid projectId, Guid taskId, [FromBody] TaskUpdateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,8 +65,8 @@ namespace ProjectManager.API.Controllers
         }
 
         // DELETE /api/projects/{projectId}/tasks/{taskId}
-        [HttpDelete("tasks/{taskId}")]
-        public async Task<IActionResult> DeleteTask(int projectId, int taskId)
+        [HttpDelete("{taskId}")]
+        public async Task<IActionResult> DeleteTask(Guid projectId, Guid taskId)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace ProjectManager.API.Controllers
 
         // GET /api/projects/{projectId}/tasks/{taskId}
         [HttpGet("{taskId}")]
-        public async Task<IActionResult> GetTaskById(int projectId, int taskId)
+        public async Task<IActionResult> GetTaskById(Guid projectId, Guid taskId)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace ProjectManager.API.Controllers
                 if (response == null || response.Data!.ProjectId != projectId)
                     return NotFound(new { error = "Task not found or access denied." });
 
-                return Ok(response);
+                return Ok(response.Data);
             }
             catch (ApplicationException ex)
             {
@@ -104,9 +104,9 @@ namespace ProjectManager.API.Controllers
             }
         }
 
-        [HttpGet("projects/{projectId}/tasks")]
+        [HttpGet]
         public async Task<IActionResult> GetTasksByProject(
-            int projectId,
+            Guid projectId,
             [FromQuery] bool? completed = null,
             [FromQuery] string? sort = null
         )
@@ -115,7 +115,7 @@ namespace ProjectManager.API.Controllers
             {
                 var userId = ClaimsPrincipalExtensions.GetUserId(User);
                 var response = await _taskService.GetTasksByProjectIdAsync(projectId, userId, completed, sort);
-                return Ok(response);
+                return Ok(response.Data);
             }
             catch (ApplicationException ex)
             {

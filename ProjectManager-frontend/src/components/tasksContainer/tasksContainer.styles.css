@@ -1,0 +1,15 @@
+.tasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 400px; /* scrollable container */
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-right: 0.5rem;
+}
+
+.loading,
+.empty {
+  font-style: italic;
+  color: #6b7280; /* gray-500 */
+}

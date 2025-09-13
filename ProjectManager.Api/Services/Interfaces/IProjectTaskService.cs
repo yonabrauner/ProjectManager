@@ -8,26 +8,26 @@ namespace ProjectManager.Api.Services
         /// <summary>
         /// Get all tasks from a specific project. ensuring the project belongs to the user.
         /// </summary>
-        Task<ServiceResult<IEnumerable<TaskResponseDto>>> GetTasksByProjectIdAsync(int projectId, int userId, bool? completed = null, string? sort = null);
+        Task<ServiceResult<IEnumerable<TaskResponseDto>>> GetTasksByProjectIdAsync(Guid projectId, Guid userId, bool? completed = null, string? sort = null);
 
         /// <summary>
         /// Get specific task owned by a specific user.
         /// </summary>
-        Task<ServiceResult<TaskResponseDto?>> GetTaskByIdAsync(int taskId, int userId);
+        Task<ServiceResult<TaskResponseDto?>> GetTaskByIdAsync(Guid taskId, Guid userId);
 
         /// <summary>
         /// Create a new task in a specific project, ensuring the project belongs to the user.
         /// </summary>
-        Task<ServiceResult<TaskResponseDto>> CreateTaskAsync(TaskCreateDto dto, int userId);
+        Task<ServiceResult<TaskResponseDto>> CreateTaskAsync(TaskCreateDto dto, Guid userId);
 
         /// <summary>
         /// Update a specific task, ensuring it is in a project that belongs to the user.
         /// </summary>
-        Task<ServiceResult<TaskResponseDto?>> UpdateTaskAsync(int taskId, TaskUpdateDto dto, int userId);
+        Task<ServiceResult<TaskResponseDto?>> UpdateTaskAsync(Guid taskId, TaskUpdateDto dto, Guid userId);
 
         /// <summary>
         /// Delete a specific task, ensuring it is in a project that belongs to the user.
         /// </summary>
-        Task<ServiceResult<bool>> DeleteTaskAsync(int taskId, int userId);
+        Task<ServiceResult<bool>> DeleteTaskAsync(Guid taskId, Guid userId);
     }
 }

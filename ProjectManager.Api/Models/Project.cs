@@ -5,7 +5,7 @@ namespace ProjectManager.Api.Models
 {
     public class Project
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required, StringLength(maximumLength: 100, MinimumLength = 3)]
         public required string Title { get; set; }
@@ -20,7 +20,7 @@ namespace ProjectManager.Api.Models
 
         // Relationship
         [Required]
-        public required int UserId { get; set; }
+        public required Guid UserId { get; set; }
         public User? User { get; set; }
     }
 }
