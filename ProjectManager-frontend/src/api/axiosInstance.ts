@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5110/api"; // your .NET API URL
+const API_BASE_URL = "https://project-manager-yon.fly.dev/api"; // your .NET API URL
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,

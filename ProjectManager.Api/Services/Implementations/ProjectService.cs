@@ -40,6 +40,7 @@ namespace ProjectManager.Api.Services
 
         public async Task<ServiceResult<ProjectResponseDto>> CreateProjectAsync(ProjectCreateDto dto, Guid userId)
         {
+            Console.WriteLine($"Received: {System.Text.Json.JsonSerializer.Serialize(dto)}");
             // Check if user exists
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 

@@ -62,7 +62,7 @@ namespace ProjectManager.Api.Helpers
             };
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(configuration["Jwt:Key"] ?? "MySuperSecretKeyForDev!!123456789000000")
+                Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)
             );
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
